@@ -803,17 +803,16 @@
         ];
 
         async function loadConfig() {
-          // local dev: ?site=<slug> stands in for the hostname you'd have in production
           const host = (LOCAL && params.get("site")) || location.hostname;
           const byHost = await fetch(
-            `${CIMPRO_APP}/api/public/site?domain=${encodeURIComponent(host)}`,
+            `${CIMPRO_APP}/api/public/broker-website?domain=${encodeURIComponent(host)}`,
           );
           if (byHost.ok) return byHost.json();
 
           const uuid = params.get("uuid");
           if (byHost.status === 404 && uuid) {
             const byId = await fetch(
-              `${CIMPRO_APP}/api/public/site?uuid=${encodeURIComponent(uuid)}`,
+              `${CIMPRO_APP}/api/public/broker-website?uuid=${encodeURIComponent(uuid)}`,
             );
             if (byId.ok) return byId.json();
           }
