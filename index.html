@@ -935,7 +935,7 @@
 
         document.getElementById("footer-fine").textContent =
           [
-            cfg.broker.legalName || name,
+            name || cfg.broker.legalName,
             cfg.broker.abn && `ABN ${cfg.broker.abn}`,
             cfg.broker.established && `Established ${cfg.broker.established}`,
             "Member firm of Business Brokers Network Australia",
