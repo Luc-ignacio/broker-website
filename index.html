@@ -1,647 +1,642 @@
 <!DOCTYPE html>
 <html lang="en-AU">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Halloran Business Brokers — Northern Rivers &amp; Gold Coast</title>
-<meta name="description" content="Confidential business appraisals and end-to-end sale management for owners across the Northern Rivers and Gold Coast.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet">
-
-<!--
-  ============================================================
-  THE ONLY THING THAT CHANGES PER BROKER IS THIS OBJECT.
-  Everything below it is identical across every site.
-
-  Right now it's a hardcoded block so you can see the mechanic.
-  In the real version this gets fetched from CIM-PRO:
-
-      const SITE_CONFIG = await fetch(
-        `https://deals.bcscentral.app/public/${CIM_PRO_ID}/site`
-      ).then(r => r.json());
-
-  The field names below are deliberately the ones that should
-  become the column names in the CIM-PRO broker_sites table.
-  ============================================================
--->
-<script>
-const SITE_CONFIG = {
-
-  cimProId: "95cb1fc9-1fc9-4d23-b43f-a0dee048d9e2",
-
-  brand: {
-    primary:  "#1B4034",   // large solid blocks
-    accent:   "#9A7B3F",   // links, underlines, the one bright note
-    logoUrl:  ""           // blank = fall back to the trading name in type
-  },
-
-  broker: {
-    tradingName:   "Halloran Business Brokers",
-    principalName: "Dale Halloran",
-    principalRole: "Principal &amp; Licensed Business Broker",
-    region:        "the Northern Rivers and Gold Coast",
-    regionShort:   "Northern Rivers",
-    phone:         "07 5524 8800",
-    emailUser:     "dale",                      // split so scrapers
-    emailDomain:   "halloranbrokers.com.au",    // can't harvest it
-    officeStreet:  "Suite 4, 12 Wharf Street",
-    officeSuburb:  "Tweed Heads NSW 2485",
-    officeHours:   "Monday to Friday, 8.30am – 5pm",
-    abn:           "42 617 904 118",
-    established:   "2009"
-  },
-
-  content: {
-    heroHeadline: "You will only sell your business once.",
-    heroIntro:    "Confidential appraisals and end-to-end sale management for owners across the Northern Rivers and Gold Coast. It costs nothing to find out where you stand.",
-    credibility:  "Halloran Business Brokers has handled sales across hospitality, trades, light manufacturing and professional services since 2009. We are a member firm of Business Brokers Network Australia.",
-
-    sellHeading:  "Selling",
-    sellBody:     "It starts with an appraisal, not a listing. We work out what your business is realistically worth, what a buyer will scrutinise, and whether now is the right time. If it is, we handle the information memorandum, the confidential marketing, and the buyer qualification so your staff and customers never hear about it before you are ready.",
-
-    buyHeading:   "Buying",
-    buyBody:      "Every business we take to market is appraised, documented and verified before a buyer sees it. We will tell you what the numbers actually say, where the risk sits, and what the vendor will and will not move on. We also hold off-market opportunities that never reach a listing site.",
-
-    aboutHeading: "About Dale",
-    aboutBody:    "Dale has spent fifteen years in and around small business on the far north coast — first running a wholesale operation of his own, then broking. He sold that business in 2008 and found the process opaque enough that he decided to do it properly for other people. Most of his clients are owners in their fifties and sixties with a business they have built over decades and one shot at exiting it well.",
-    aboutQuote:   "Owners do not need to be sold to. They need someone to tell them the truth about what they have got, early enough to do something about it.",
-
-    listingsHeading: "Businesses for sale",
-    listingsIntro:   "Current listings across the region. Enquiries are confidential and go directly to Dale."
-  },
-
-  process: [
-    { title: "Appraisal",              body: "A confidential assessment of what the business is worth today, and what would move that number." },
-    { title: "Information memorandum", body: "The document that does the selling. Financials normalised, operations documented, risks addressed before a buyer raises them." },
-    { title: "Confidential marketing", body: "Listed without identifying the business. Every enquiry signs a confidentiality agreement before receiving anything." },
-    { title: "Qualified buyers",       body: "Buyers are screened for finance and intent before they get near your staff, your books or your premises." },
-    { title: "Due diligence and settlement", body: "We manage the process through to settlement alongside your accountant and solicitor." }
-  ],
-
-  legal: {
-    privacyUrl: "/privacy",
-    termsUrl:   "/terms"
-  }
-};
-</script>
-
-<style>
-/* ---------- tokens ---------- */
-:root{
-  --ink:        #10201A;
-  --pine:       #1B4034;
-  --pine-deep:  #122C24;
-  --paper:      #FFFFFF;
-  --mist:       #F2F4F2;
-  --line:       #DCE2DE;
-  --muted:      #59665F;
-  --brass:      #9A7B3F;
-
-  --serif: "Newsreader", Georgia, serif;
-  --sans:  "Archivo", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-
-  --gap:   clamp(4.5rem, 9vw, 7.5rem);
-  --pad:   clamp(1.25rem, 4vw, 2rem);
-  --wrap:  1140px;
-}
-
-*,*::before,*::after{ box-sizing:border-box; }
-
-html{ -webkit-text-size-adjust:100%; }
-
-body{
-  margin:0;
-  background:var(--paper);
-  color:var(--ink);
-  font-family:var(--sans);
-  font-size:1.0625rem;
-  line-height:1.65;
-  font-weight:400;
-  -webkit-font-smoothing:antialiased;
-}
-
-.wrap{
-  width:100%;
-  max-width:var(--wrap);
-  margin-inline:auto;
-  padding-inline:var(--pad);
-}
-
-h1,h2,h3{
-  font-family:var(--serif);
-  font-weight:400;
-  line-height:1.12;
-  letter-spacing:-0.012em;
-  margin:0;
-  text-wrap:balance;
-}
-
-p{ margin:0 0 1.15em; max-width:68ch; }
-p:last-child{ margin-bottom:0; }
-
-a{ color:inherit; }
-
-:focus-visible{
-  outline:2px solid var(--brass);
-  outline-offset:3px;
-}
-
-/* ---------- header ---------- */
-.masthead{
-  position:sticky; top:0; z-index:40;
-  background:rgba(255,255,255,.94);
-  backdrop-filter:saturate(150%) blur(8px);
-  border-bottom:1px solid var(--line);
-}
-.masthead__inner{
-  display:flex; align-items:center; gap:2rem;
-  min-height:76px;
-}
-.wordmark{
-  font-family:var(--serif);
-  font-size:1.3rem;
-  letter-spacing:-0.015em;
-  text-decoration:none;
-  white-space:nowrap;
-  margin-right:auto;
-}
-.wordmark img{ height:34px; width:auto; display:block; }
-
-.nav{ display:flex; gap:1.75rem; }
-.nav a{
-  font-size:.9375rem;
-  text-decoration:none;
-  color:var(--muted);
-  padding-block:.25rem;
-  border-bottom:1px solid transparent;
-}
-.nav a:hover{ color:var(--ink); border-bottom-color:var(--brass); }
-
-.masthead__phone{
-  font-size:.9375rem;
-  font-weight:500;
-  text-decoration:none;
-  white-space:nowrap;
-  border-bottom:1.5px solid var(--brass);
-  padding-bottom:1px;
-}
-
-.navtoggle{
-  display:none;
-  background:none; border:1px solid var(--line);
-  border-radius:3px; padding:.5rem .7rem;
-  font:inherit; font-size:.875rem; cursor:pointer;
-}
-
-/* ---------- hero ---------- */
-.hero{
-  background:var(--pine);
-  color:#EFF3F0;
-  padding-block:clamp(4.5rem, 10vw, 8rem);
-}
-.hero h1{
-  font-size:clamp(2.5rem, 6vw, 4.4rem);
-  max-width:16ch;
-  color:#fff;
-}
-.hero__intro{
-  font-size:clamp(1.0625rem, 1.6vw, 1.25rem);
-  color:#CBD6CF;
-  max-width:54ch;
-  margin-top:1.75rem;
-}
-.hero__actions{
-  display:flex; flex-wrap:wrap; gap:.9rem;
-  margin-top:2.5rem;
-}
-.hero__note{
-  margin-top:3.5rem;
-  padding-top:1.75rem;
-  border-top:1px solid rgba(255,255,255,.16);
-  font-size:.9375rem;
-  color:#A9B9B0;
-  max-width:60ch;
-}
-
-.btn{
-  display:inline-block;
-  font:inherit; font-size:1rem; font-weight:500;
-  padding:.95rem 1.7rem;
-  border-radius:2px;
-  text-decoration:none;
-  border:1.5px solid transparent;
-  cursor:pointer;
-  transition:background-color .18s ease, color .18s ease;
-}
-.btn--solid{ background:#fff; color:var(--pine-deep); }
-.btn--solid:hover{ background:var(--brass); color:#fff; }
-.btn--ghost{ border-color:rgba(255,255,255,.42); color:#fff; }
-.btn--ghost:hover{ background:rgba(255,255,255,.1); }
-
-/* ---------- generic section ---------- */
-.band{ padding-block:var(--gap); }
-.band--mist{ background:var(--mist); }
-.band--pine{ background:var(--pine-deep); color:#EFF3F0; }
-
-.band h2{
-  font-size:clamp(1.85rem, 3.2vw, 2.55rem);
-  max-width:22ch;
-}
-.band__lede{
-  margin-top:1rem;
-  color:var(--muted);
-  max-width:56ch;
-}
-.band--pine .band__lede{ color:#A9B9B0; }
-
-/* ---------- two paths ---------- */
-.paths{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:clamp(2rem, 5vw, 4.5rem);
-}
-.path h3{ font-size:1.65rem; }
-.path p{ margin-top:.9rem; color:var(--muted); }
-.path__link{
-  display:inline-block;
-  margin-top:1.4rem;
-  font-size:.9375rem; font-weight:500;
-  text-decoration:none;
-  border-bottom:1.5px solid var(--brass);
-  padding-bottom:1px;
-}
-.path--lead{
-  border-top:3px solid var(--pine);
-  padding-top:1.75rem;
-}
-.path--alt{
-  border-top:1px solid var(--line);
-  padding-top:1.75rem;
-}
-
-/* ---------- about ---------- */
-.about{
-  display:grid;
-  grid-template-columns:minmax(0,340px) minmax(0,1fr);
-  gap:clamp(2rem, 5vw, 4.5rem);
-  align-items:start;
-}
-.portrait{
-  aspect-ratio:4/5;
-  background:
-    linear-gradient(150deg, #D8DED9 0%, #C3CCC5 55%, #AEB9B1 100%);
-  border-radius:2px;
-  display:grid; place-items:center;
-  color:#6A7871;
-  font-size:.8125rem;
-  text-align:center;
-  padding:1rem;
-}
-.about__body{ margin-top:1.5rem; color:var(--muted); }
-.pullquote{
-  margin:2.25rem 0 0;
-  padding-left:1.5rem;
-  border-left:2px solid var(--brass);
-  font-family:var(--serif);
-  font-size:1.35rem;
-  line-height:1.45;
-  color:var(--ink);
-  max-width:46ch;
-}
-.pullquote p{ margin:0; max-width:none; }
-
-/* ---------- process (a real sequence, so numbers earn their place) ---------- */
-.steps{
-  margin-top:3rem;
-  display:grid;
-  gap:0;
-  counter-reset:step;
-}
-.step{
-  display:grid;
-  grid-template-columns:3.5rem minmax(0,1fr);
-  gap:1.5rem;
-  padding-block:1.65rem;
-  border-top:1px solid var(--line);
-  align-items:baseline;
-}
-.step:last-child{ border-bottom:1px solid var(--line); }
-.step::before{
-  counter-increment:step;
-  content:counter(step,decimal-leading-zero);
-  font-family:var(--serif);
-  font-size:1.05rem;
-  color:var(--brass);
-}
-.step h3{ font-size:1.15rem; font-family:var(--sans); font-weight:600; letter-spacing:0; }
-.step p{ margin:.4rem 0 0; color:var(--muted); font-size:.9875rem; }
-
-/* ---------- listings ---------- */
-.listings__frame{
-  margin-top:2.75rem;
-  background:#fff;
-  border:1px solid var(--line);
-  border-radius:2px;
-  overflow:hidden;
-}
-.listings__frame iframe{ display:block; width:100%; border:0; }
-
-/* ---------- contact ---------- */
-.contact{
-  display:grid;
-  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
-  gap:clamp(2rem, 6vw, 5rem);
-  align-items:start;
-}
-.contact__lines{ margin-top:2.25rem; display:grid; gap:1.5rem; }
-.contact__line span{
-  display:block;
-  font-size:.875rem;
-  color:#9FB0A7;
-  margin-bottom:.2rem;
-}
-.contact__line a,
-.contact__line strong{
-  font-family:var(--serif);
-  font-size:1.5rem;
-  font-weight:400;
-  color:#fff;
-  text-decoration:none;
-  line-height:1.3;
-}
-.contact__line a:hover{ border-bottom:1px solid var(--brass); }
-
-/* ---------- footer ---------- */
-.footer{
-  padding-block:3rem;
-  border-top:1px solid var(--line);
-  font-size:.875rem;
-  color:var(--muted);
-}
-.footer__top{
-  display:flex; flex-wrap:wrap; gap:1.5rem 2rem;
-  align-items:baseline;
-  margin-bottom:2rem;
-}
-.footer__nav{ display:flex; flex-wrap:wrap; gap:1.5rem; margin-left:auto; }
-.footer a{ text-decoration:none; color:var(--muted); }
-.footer a:hover{ color:var(--ink); }
-.footer__fine{ max-width:70ch; }
-
-/* ---------- motion: one moment, on load ---------- */
-@media (prefers-reduced-motion:no-preference){
-  .hero h1, .hero__intro, .hero__actions, .hero__note{
-    opacity:0;
-    animation:rise .7s cubic-bezier(.2,.7,.3,1) forwards;
-  }
-  .hero__intro{ animation-delay:.09s; }
-  .hero__actions{ animation-delay:.18s; }
-  .hero__note{ animation-delay:.27s; }
-}
-@keyframes rise{
-  from{ opacity:0; transform:translateY(14px); }
-  to{ opacity:1; transform:none; }
-}
-
-/* ---------- responsive ---------- */
-@media (max-width:860px){
-  .paths, .about, .contact{ grid-template-columns:1fr; }
-  .portrait{ max-width:280px; }
-  .nav{
-    display:none;
-    position:absolute; left:0; right:0; top:100%;
-    flex-direction:column; gap:0;
-    background:#fff;
-    border-bottom:1px solid var(--line);
-    padding:.5rem var(--pad) 1.25rem;
-  }
-  .nav[data-open="true"]{ display:flex; }
-  .nav a{ padding-block:.7rem; border-bottom:1px solid var(--line); }
-  .navtoggle{ display:block; order:3; }
-  .masthead__phone{ order:2; }
-  .masthead__inner{ position:relative; gap:1rem; }
-}
-@media (max-width:520px){
-  .step{ grid-template-columns:2.25rem minmax(0,1fr); gap:1rem; }
-  .btn{ width:100%; text-align:center; }
-}
-</style>
-</head>
-
-<body>
-
-<header class="masthead">
-  <div class="wrap masthead__inner">
-    <a class="wordmark" href="/" data-wordmark></a>
-    <nav class="nav" id="nav" aria-label="Main">
-      <a href="#selling">Sell your business</a>
-      <a href="#listings">Businesses for sale</a>
-      <a href="#about">About</a>
-      <a href="#contact">Contact</a>
-    </nav>
-    <a class="masthead__phone" data-bind="broker.phone" data-tel href="#"></a>
-    <button class="navtoggle" id="navtoggle" aria-expanded="false" aria-controls="nav">Menu</button>
-  </div>
-</header>
-
-<main>
-
-  <section class="hero">
-    <div class="wrap">
-      <h1 data-bind="content.heroHeadline"></h1>
-      <p class="hero__intro" data-bind="content.heroIntro"></p>
-      <div class="hero__actions">
-        <a class="btn btn--solid" href="#contact">Request a confidential appraisal</a>
-        <a class="btn btn--ghost" href="#listings">See businesses for sale</a>
-      </div>
-      <p class="hero__note" data-bind="content.credibility"></p>
-    </div>
-  </section>
-
-  <section class="band" id="selling">
-    <div class="wrap">
-      <div class="paths">
-        <div class="path path--lead">
-          <h3 data-bind="content.sellHeading"></h3>
-          <p data-bind="content.sellBody"></p>
-          <a class="path__link" href="#contact">Start with an appraisal</a>
-        </div>
-        <div class="path path--alt">
-          <h3 data-bind="content.buyHeading"></h3>
-          <p data-bind="content.buyBody"></p>
-          <a class="path__link" href="#listings">Browse current listings</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="band band--mist" id="about">
-    <div class="wrap about">
-      <div class="portrait">Broker portrait<br>uploaded in CIM-PRO</div>
-      <div>
-        <h2 data-bind="content.aboutHeading"></h2>
-        <p class="about__body" data-bind="content.aboutBody"></p>
-        <blockquote class="pullquote"><p data-bind="content.aboutQuote"></p></blockquote>
-      </div>
-    </div>
-  </section>
-
-  <section class="band">
-    <div class="wrap">
-      <h2>How a sale actually runs</h2>
-      <p class="band__lede">Most owners have never been through this. Here is the whole process, start to finish.</p>
-      <div class="steps" id="steps"></div>
-    </div>
-  </section>
-
-  <section class="band band--mist" id="listings">
-    <div class="wrap">
-      <h2 data-bind="content.listingsHeading"></h2>
-      <p class="band__lede" data-bind="content.listingsIntro"></p>
-      <div class="listings__frame">
-        <!--
-          Live CIM-PRO listings widget, scoped by cimProId.
-          Height is fixed at 900px for now — the upgrade is to have the
-          widget postMessage its content height so this resizes itself.
-        -->
-        <iframe id="listings-embed"
-                height="900"
-                loading="lazy"
-                allowtransparency="true"
-                title="Businesses for sale"></iframe>
-      </div>
-    </div>
-  </section>
-
-  <section class="band band--pine" id="contact">
-    <div class="wrap contact">
-      <div>
-        <h2>Have a quiet conversation first.</h2>
-        <p class="band__lede">Nothing is listed, recorded or actioned from an initial call. Most owners talk to us twelve to eighteen months before they sell.</p>
-      </div>
-      <div class="contact__lines">
-        <div class="contact__line">
-          <span>Phone</span>
-          <a data-bind="broker.phone" data-tel href="#"></a>
-        </div>
-        <div class="contact__line">
-          <span>Email</span>
-          <a data-email href="#"></a>
-        </div>
-        <div class="contact__line">
-          <span>Office</span>
-          <strong><span data-bind="broker.officeStreet"></span><br><span data-bind="broker.officeSuburb"></span></strong>
-        </div>
-        <div class="contact__line">
-          <span>Hours</span>
-          <strong data-bind="broker.officeHours"></strong>
-        </div>
-      </div>
-    </div>
-  </section>
-
-</main>
-
-<footer class="footer">
-  <div class="wrap">
-    <div class="footer__top">
-      <span class="wordmark" data-wordmark style="font-size:1.15rem"></span>
-      <nav class="footer__nav" aria-label="Footer">
-        <a href="#selling">Sell your business</a>
-        <a href="#listings">Businesses for sale</a>
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
-        <a data-bind-href="legal.privacyUrl" href="/privacy">Privacy</a>
-        <a data-bind-href="legal.termsUrl" href="/terms">Terms</a>
-      </nav>
-    </div>
-    <p class="footer__fine" id="footer-fine"></p>
-  </div>
-</footer>
-
-<script>
-(function(){
-  "use strict";
-
-  /* resolve "broker.phone" against the config object */
-  const get = (path) => path.split(".").reduce((o,k) => (o||{})[k], SITE_CONFIG);
-
-  /* 1. brand colours straight into the CSS variables */
-  const root = document.documentElement.style;
-  if (SITE_CONFIG.brand.primary) {
-    root.setProperty("--pine", SITE_CONFIG.brand.primary);
-    root.setProperty("--pine-deep", SITE_CONFIG.brand.primary);
-  }
-  if (SITE_CONFIG.brand.accent) root.setProperty("--brass", SITE_CONFIG.brand.accent);
-
-  /* 2. every data-bind element gets its text from the config */
-  document.querySelectorAll("[data-bind]").forEach(el => {
-    const v = get(el.dataset.bind);
-    if (v != null) el.innerHTML = v;
-  });
-  document.querySelectorAll("[data-bind-href]").forEach(el => {
-    const v = get(el.dataset.bindHref);
-    if (v) el.href = v;
-  });
-
-  /* 3. logo if there is one, otherwise the trading name in type */
-  const logo = SITE_CONFIG.brand.logoUrl;
-  const name = SITE_CONFIG.broker.tradingName;
-  document.querySelectorAll("[data-wordmark]").forEach(el => {
-    el.innerHTML = logo
-      ? '<img src="'+logo+'" alt="'+name+'">'
-      : name;
-  });
-
-  /* 4. click-to-call */
-  document.querySelectorAll("[data-tel]").forEach(el => {
-    el.href = "tel:" + SITE_CONFIG.broker.phone.replace(/\s/g,"");
-  });
-
-  /* 5. email assembled at runtime so scrapers don't find it in the source */
-  const addr = SITE_CONFIG.broker.emailUser + "@" + SITE_CONFIG.broker.emailDomain;
-  document.querySelectorAll("[data-email]").forEach(el => {
-    el.href = "mailto:" + addr;
-    el.textContent = addr;
-  });
-
-  /* 6. the process steps */
-  document.getElementById("steps").innerHTML = SITE_CONFIG.process.map(s =>
-    '<div class="step"><div><h3>'+s.title+'</h3><p>'+s.body+'</p></div></div>'
-  ).join("");
-
-  /* 7. the listings widget, scoped to this broker */
-  document.getElementById("listings-embed").src =
-    "https://deals.bcscentral.app/public/" + SITE_CONFIG.cimProId + "/embed/listings";
-
-  /* 8. page furniture */
-  document.title = name + " — " + SITE_CONFIG.broker.region
-    .replace(/^the /,"")
-    .replace(/\b\w/g, c => c.toUpperCase());
-
-  document.getElementById("footer-fine").textContent =
-    name + ". ABN " + SITE_CONFIG.broker.abn + ". Established " +
-    SITE_CONFIG.broker.established + ". Member firm of Business Brokers Network Australia. " +
-    "All listings subject to confidentiality agreement.";
-
-  /* 9. mobile menu */
-  const tog = document.getElementById("navtoggle");
-  const nav = document.getElementById("nav");
-  tog.addEventListener("click", () => {
-    const open = nav.dataset.open === "true";
-    nav.dataset.open = String(!open);
-    tog.setAttribute("aria-expanded", String(!open));
-  });
-  nav.addEventListener("click", e => {
-    if (e.target.tagName === "A") {
-      nav.dataset.open = "false";
-      tog.setAttribute("aria-expanded","false");
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Both are replaced from the site config once it loads; these are the
+        pre-fetch fallbacks, so they stay generic. -->
+    <title>Business Brokers</title>
+
+    <meta id="meta-description" name="description" content="Confidential business appraisals and end-to-end sale management.">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet">
+
+    <style>
+    /* ---------- tokens ---------- */
+    :root{
+      --ink:        #10201A;
+      --pine:       #1B4034;
+      --pine-deep:  #122C24;
+      --paper:      #FFFFFF;
+      --mist:       #F2F4F2;
+      --line:       #DCE2DE;
+      --muted:      #59665F;
+      --brass:      #9A7B3F;
+
+      --serif: "Newsreader", Georgia, serif;
+      --sans:  "Archivo", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+      --gap:   clamp(4.5rem, 9vw, 7.5rem);
+      --pad:   clamp(1.25rem, 4vw, 2rem);
+      --wrap:  1140px;
     }
-  });
 
-})();
-</script>
+    *,*::before,*::after{ box-sizing:border-box; }
 
-</body>
+    html{ -webkit-text-size-adjust:100%; }
+
+    body{
+      margin:0;
+      background:var(--paper);
+      color:var(--ink);
+      font-family:var(--sans);
+      font-size:1.0625rem;
+      line-height:1.65;
+      font-weight:400;
+      -webkit-font-smoothing:antialiased;
+    }
+
+    .wrap{
+      width:100%;
+      max-width:var(--wrap);
+      margin-inline:auto;
+      padding-inline:var(--pad);
+    }
+
+    h1,h2,h3{
+      font-family:var(--serif);
+      font-weight:400;
+      line-height:1.12;
+      letter-spacing:-0.012em;
+      margin:0;
+      text-wrap:balance;
+    }
+
+    p{ margin:0 0 1.15em; max-width:68ch; }
+    p:last-child{ margin-bottom:0; }
+
+    a{ color:inherit; }
+
+    :focus-visible{
+      outline:2px solid var(--brass);
+      outline-offset:3px;
+    }
+
+    /* ---------- header ---------- */
+    .masthead{
+      position:sticky; top:0; z-index:40;
+      background:rgba(255,255,255,.94);
+      backdrop-filter:saturate(150%) blur(8px);
+      border-bottom:1px solid var(--line);
+    }
+    .masthead__inner{
+      display:flex; align-items:center; gap:2rem;
+      min-height:76px;
+    }
+    .wordmark{
+      font-family:var(--serif);
+      font-size:1.3rem;
+      letter-spacing:-0.015em;
+      text-decoration:none;
+      white-space:nowrap;
+      margin-right:auto;
+    }
+    .wordmark img{ height:34px; width:auto; display:block; }
+
+    .nav{ display:flex; gap:1.75rem; }
+    .nav a{
+      font-size:.9375rem;
+      text-decoration:none;
+      color:var(--muted);
+      padding-block:.25rem;
+      border-bottom:1px solid transparent;
+    }
+    .nav a:hover{ color:var(--ink); border-bottom-color:var(--brass); }
+
+    .masthead__phone{
+      font-size:.9375rem;
+      font-weight:500;
+      text-decoration:none;
+      white-space:nowrap;
+      border-bottom:1.5px solid var(--brass);
+      padding-bottom:1px;
+    }
+
+    .navtoggle{
+      display:none;
+      background:none; border:1px solid var(--line);
+      border-radius:3px; padding:.5rem .7rem;
+      font:inherit; font-size:.875rem; cursor:pointer;
+    }
+
+    /* ---------- hero ---------- */
+    .hero{
+      background:var(--pine);
+      color:#EFF3F0;
+      padding-block:clamp(4.5rem, 10vw, 8rem);
+    }
+    .hero h1{
+      font-size:clamp(2.5rem, 6vw, 4.4rem);
+      max-width:16ch;
+      color:#fff;
+    }
+    .hero__intro{
+      font-size:clamp(1.0625rem, 1.6vw, 1.25rem);
+      color:#CBD6CF;
+      max-width:54ch;
+      margin-top:1.75rem;
+    }
+    .hero__actions{
+      display:flex; flex-wrap:wrap; gap:.9rem;
+      margin-top:2.5rem;
+    }
+    .hero__note{
+      margin-top:3.5rem;
+      padding-top:1.75rem;
+      border-top:1px solid rgba(255,255,255,.16);
+      font-size:.9375rem;
+      color:#A9B9B0;
+      max-width:60ch;
+    }
+
+    .btn{
+      display:inline-block;
+      font:inherit; font-size:1rem; font-weight:500;
+      padding:.95rem 1.7rem;
+      border-radius:2px;
+      text-decoration:none;
+      border:1.5px solid transparent;
+      cursor:pointer;
+      transition:background-color .18s ease, color .18s ease;
+    }
+    .btn--solid{ background:#fff; color:var(--pine-deep); }
+    .btn--solid:hover{ background:var(--brass); color:#fff; }
+    .btn--ghost{ border-color:rgba(255,255,255,.42); color:#fff; }
+    .btn--ghost:hover{ background:rgba(255,255,255,.1); }
+
+    /* ---------- generic section ---------- */
+    .band{ padding-block:var(--gap); }
+    .band--mist{ background:var(--mist); }
+    .band--pine{ background:var(--pine-deep); color:#EFF3F0; }
+
+    .band h2{
+      font-size:clamp(1.85rem, 3.2vw, 2.55rem);
+      max-width:22ch;
+    }
+    .band__lede{
+      margin-top:1rem;
+      color:var(--muted);
+      max-width:56ch;
+    }
+    .band--pine .band__lede{ color:#A9B9B0; }
+
+    /* ---------- two paths ---------- */
+    .paths{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:clamp(2rem, 5vw, 4.5rem);
+    }
+    .path h3{ font-size:1.65rem; }
+    .path p{ margin-top:.9rem; color:var(--muted); }
+    .path__link{
+      display:inline-block;
+      margin-top:1.4rem;
+      font-size:.9375rem; font-weight:500;
+      text-decoration:none;
+      border-bottom:1.5px solid var(--brass);
+      padding-bottom:1px;
+    }
+    .path--lead{
+      border-top:3px solid var(--pine);
+      padding-top:1.75rem;
+    }
+    .path--alt{
+      border-top:1px solid var(--line);
+      padding-top:1.75rem;
+    }
+
+    /* ---------- about ---------- */
+    .about{
+      display:grid;
+      grid-template-columns:minmax(0,340px) minmax(0,1fr);
+      gap:clamp(2rem, 5vw, 4.5rem);
+      align-items:start;
+    }
+    .about__by{ margin:.5rem 0 0; font-size:.9375rem; color:var(--muted); }
+    .about__by strong{ color:var(--ink); font-weight:600; }
+    .portrait{
+      aspect-ratio:4/5;
+      background:
+        linear-gradient(150deg, #D8DED9 0%, #C3CCC5 55%, #AEB9B1 100%);
+      border-radius:2px;
+      display:grid; place-items:center;
+      color:#6A7871;
+      font-size:.8125rem;
+      text-align:center;
+      padding:1rem;
+    }
+    .portrait--photo{ padding:0; background:none; }
+    .portrait--photo img{ width:100%; height:100%; object-fit:cover; border-radius:2px; display:block; }
+    .about__body{ margin-top:1.5rem; color:var(--muted); }
+    .about__quote{
+      margin:2.25rem 0 0;
+      padding-left:1.5rem;
+      border-left:2px solid var(--brass);
+      font-family:var(--serif);
+      font-size:1.35rem;
+      line-height:1.45;
+      color:var(--ink);
+      max-width:46ch;
+    }
+    .about__quote p{ margin:0; max-width:none; }
+
+    /* ---------- process (a real sequence, so numbers earn their place) ---------- */
+    .steps{
+      margin-top:3rem;
+      display:grid;
+      gap:0;
+      counter-reset:step;
+    }
+    .step{
+      display:grid;
+      grid-template-columns:3.5rem minmax(0,1fr);
+      gap:1.5rem;
+      padding-block:1.65rem;
+      border-top:1px solid var(--line);
+      align-items:baseline;
+    }
+    .step:last-child{ border-bottom:1px solid var(--line); }
+    .step::before{
+      counter-increment:step;
+      content:counter(step,decimal-leading-zero);
+      font-family:var(--serif);
+      font-size:1.05rem;
+      color:var(--brass);
+    }
+    .step h3{ font-size:1.15rem; font-family:var(--sans); font-weight:600; letter-spacing:0; }
+    .step p{ margin:.4rem 0 0; color:var(--muted); font-size:.9875rem; }
+
+    /* ---------- listings ---------- */
+    .listings__frame{
+      margin-top:2.75rem;
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:2px;
+      overflow:hidden;
+    }
+    .listings__frame iframe{ display:block; width:100%; border:0; }
+
+    /* ---------- contact ---------- */
+    .contact{
+      display:grid;
+      grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+      gap:clamp(2rem, 6vw, 5rem);
+      align-items:start;
+    }
+    .contact__lines{ margin-top:2.25rem; display:grid; gap:1.5rem; }
+    .contact__line span{
+      display:block;
+      font-size:.875rem;
+      color:#9FB0A7;
+      margin-bottom:.2rem;
+    }
+    .contact__line a,
+    .contact__line strong{
+      font-family:var(--serif);
+      font-size:1.5rem;
+      font-weight:400;
+      color:#fff;
+      text-decoration:none;
+      line-height:1.3;
+    }
+    .contact__line a:hover{ border-bottom:1px solid var(--brass); }
+
+    /* ---------- footer ---------- */
+    .footer{
+      padding-block:3rem;
+      border-top:1px solid var(--line);
+      font-size:.875rem;
+      color:var(--muted);
+    }
+    .footer__top{
+      display:flex; flex-wrap:wrap; gap:1.5rem 2rem;
+      align-items:baseline;
+      margin-bottom:2rem;
+    }
+    .footer__nav{ display:flex; flex-wrap:wrap; gap:1.5rem; margin-left:auto; }
+    .footer a{ text-decoration:none; color:var(--muted); }
+    .footer a:hover{ color:var(--ink); }
+    .footer__fine{ max-width:70ch; }
+
+    /* ---------- motion: one moment, on load ---------- */
+    @media (prefers-reduced-motion:no-preference){
+      .hero h1, .hero__intro, .hero__actions, .hero__note{
+        opacity:0;
+        animation:rise .7s cubic-bezier(.2,.7,.3,1) forwards;
+      }
+      .hero__intro{ animation-delay:.09s; }
+      .hero__actions{ animation-delay:.18s; }
+      .hero__note{ animation-delay:.27s; }
+    }
+    @keyframes rise{
+      from{ opacity:0; transform:translateY(14px); }
+      to{ opacity:1; transform:none; }
+    }
+
+    /* ---------- responsive ---------- */
+    @media (max-width:860px){
+      .paths, .about, .contact{ grid-template-columns:1fr; }
+      .portrait{ max-width:280px; }
+      .nav{
+        display:none;
+        position:absolute; left:0; right:0; top:100%;
+        flex-direction:column; gap:0;
+        background:#fff;
+        border-bottom:1px solid var(--line);
+        padding:.5rem var(--pad) 1.25rem;
+      }
+      .nav[data-open="true"]{ display:flex; }
+      .nav a{ padding-block:.7rem; border-bottom:1px solid var(--line); }
+      .navtoggle{ display:block; order:3; }
+      .masthead__phone{ order:2; }
+      .masthead__inner{ position:relative; gap:1rem; }
+    }
+    @media (max-width:520px){
+      .step{ grid-template-columns:2.25rem minmax(0,1fr); gap:1rem; }
+      .btn{ width:100%; text-align:center; }
+    }
+    </style>
+  </head>
+
+  <body>
+
+    <header class="masthead">
+      <div class="wrap masthead__inner">
+        <a class="wordmark" href="/" data-wordmark></a>
+        <nav class="nav" id="nav" aria-label="Main">
+          <a href="#selling">Sell your business</a>
+          <a href="#listings">Businesses for sale</a>
+          <a href="#about">About</a>
+          <a href="#contact">Contact</a>
+        </nav>
+        <a class="masthead__phone" data-bind="broker.phone" data-tel href="#"></a>
+        <button class="navtoggle" id="navtoggle" aria-expanded="false" aria-controls="nav">Menu</button>
+      </div>
+    </header>
+
+    <main>
+
+      <section class="hero">
+        <div class="wrap">
+          <h1 data-bind="content.heroHeadline"></h1>
+          <p class="hero__intro" data-bind="content.heroIntro"></p>
+          <div class="hero__actions">
+            <a class="btn btn--solid" href="#contact">Request a confidential appraisal</a>
+            <a class="btn btn--ghost" href="#listings">See businesses for sale</a>
+          </div>
+          <p class="hero__note" data-bind="content.credibility"></p>
+        </div>
+      </section>
+
+      <section class="band" id="selling">
+        <div class="wrap">
+          <div class="paths">
+            <div class="path path--lead">
+              <h3 data-bind="content.sellHeading"></h3>
+              <p data-bind="content.sellBody"></p>
+              <a class="path__link" href="#contact">Start with an appraisal</a>
+            </div>
+            <div class="path path--alt">
+              <h3 data-bind="content.buyHeading"></h3>
+              <p data-bind="content.buyBody"></p>
+              <a class="path__link" href="#listings">Browse current listings</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="band band--mist" id="about">
+        <div class="wrap about">
+          <!-- filled with the principal's photo, or removed, once config loads -->
+          <div class="portrait"></div>
+          <div>
+            <h2 data-bind="content.aboutHeading"></h2>
+            <p class="about__by"><strong data-bind="broker.principalName"></strong> <span data-bind="broker.principalRole"></span></p>
+            <p class="about__body" data-bind="content.aboutBody"></p>
+            <blockquote class="about__quote"><p data-bind="content.aboutQuote"></p></blockquote>
+          </div>
+        </div>
+      </section>
+
+      <section class="band">
+        <div class="wrap">
+          <h2>How a sale actually runs</h2>
+          <p class="band__lede">Most owners have never been through this. Here is the whole process, start to finish.</p>
+          <div class="steps" id="steps"></div>
+        </div>
+      </section>
+
+      <section class="band band--mist" id="listings">
+        <div class="wrap">
+          <h2 data-bind="content.listingsHeading"></h2>
+          <p class="band__lede" data-bind="content.listingsIntro"></p>
+          <div class="listings__frame">
+            <!--
+              Live CIM-PRO listings widget, scoped by cimProId.
+              Height is fixed at 900px for now — the upgrade is to have the
+              widget postMessage its content height so this resizes itself.
+            -->
+            <iframe id="listings-embed"
+                    height="900"
+                    loading="lazy"
+                    title="Businesses for sale"></iframe>
+          </div>
+        </div>
+      </section>
+
+      <section class="band band--pine" id="contact">
+        <div class="wrap contact">
+          <div>
+            <h2>Have a quiet conversation first.</h2>
+            <p class="band__lede">Nothing is listed, recorded or actioned from an initial call. Most owners talk to us twelve to eighteen months before they sell.</p>
+          </div>
+          <div class="contact__lines">
+            <div class="contact__line">
+              <span>Phone</span>
+              <a data-bind="broker.phone" data-tel href="#"></a>
+            </div>
+            <div class="contact__line">
+              <span>Email</span>
+              <a data-email href="#"></a>
+            </div>
+            <div class="contact__line">
+              <span>Office</span>
+              <strong><span data-bind="broker.officeStreet"></span><br><span data-bind="broker.officeSuburb"></span></strong>
+            </div>
+            <div class="contact__line">
+              <span>Hours</span>
+              <strong data-bind="broker.officeHours"></strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="footer">
+      <div class="wrap">
+        <div class="footer__top">
+          <span class="wordmark" data-wordmark style="font-size:1.15rem"></span>
+          <nav class="footer__nav" aria-label="Footer">
+            <a href="#selling">Sell your business</a>
+            <a href="#listings">Businesses for sale</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+            <a data-bind-href="legal.privacyUrl" href="/privacy">Privacy</a>
+            <a data-bind-href="legal.termsUrl" href="/terms">Terms</a>
+          </nav>
+        </div>
+        <p class="footer__fine" id="footer-fine"></p>
+      </div>
+    </footer>
+
+    <script>
+    (async function(){
+      "use strict";
+
+      const params = new URLSearchParams(location.search);
+      const LOCAL = ["localhost", "127.0.0.1"].includes(location.hostname);
+      // The config API and the listings embed are the same app.
+      const CIMPRO_APP = LOCAL ? "http://localhost:3000" : "http://localhost:3000";
+
+      // Used when a site config carries no process of its own.
+      const DEFAULT_PROCESS = [
+        { title: "Appraisal",              body: "A confidential assessment of what the business is worth today, and what would move that number." },
+        { title: "Information memorandum", body: "The document that does the selling. Financials normalised, operations documented, risks addressed before a buyer raises them." },
+        { title: "Confidential marketing", body: "Listed without identifying the business. Every enquiry signs a confidentiality agreement before receiving anything." },
+        { title: "Qualified buyers",       body: "Buyers are screened for finance and intent before they get near your staff, your books or your premises." },
+        { title: "Due diligence and settlement", body: "We manage the process through to settlement alongside your accountant and solicitor." },
+      ];
+
+      async function loadConfig() {
+        // local dev: ?site=<slug> stands in for the hostname you'd have in production
+        const host = (LOCAL && params.get("site")) || location.hostname;
+        const byHost = await fetch(`${CIMPRO_APP}/api/public/site?domain=${encodeURIComponent(host)}`);
+        if (byHost.ok) return byHost.json();
+
+        const uuid = params.get("uuid");
+        if (byHost.status === 404 && uuid) {
+          const byId = await fetch(`${CIMPRO_APP}/api/public/site?uuid=${encodeURIComponent(uuid)}`);
+          if (byId.ok) return byId.json();
+        }
+        throw new Error(`site config unavailable (${byHost.status})`);
+      }
+
+      let cfg;
+      try { cfg = await loadConfig(); }
+      catch (e) {
+        document.body.innerHTML =
+          '<main style="font:400 1rem/1.6 system-ui;max-width:32rem;margin:20vh auto;padding:0 1.5rem">' +
+          '<h1 style="font-size:1.4rem;font-weight:500">This site isn\'t available yet.</h1>' +
+          '<p style="color:#59665F">Publish it from your CIM-PRO workspace settings.</p></main>';
+        return;
+      }
+
+      const get = (path) => path.split(".").reduce((o,k) => (o||{})[k], cfg);
+      const hide = (el, sel) => (el.closest(sel) || el).remove();
+
+      const root = document.documentElement.style;
+      if (cfg.brand.primary) { root.setProperty("--pine", cfg.brand.primary); root.setProperty("--pine-deep", cfg.brand.primary); }
+      if (cfg.brand.accent)  root.setProperty("--brass", cfg.brand.accent);
+
+      document.querySelectorAll("[data-bind]").forEach(el => {
+        el.textContent = get(el.dataset.bind) ?? "";     // textContent, not innerHTML
+      });
+      document.querySelectorAll("[data-bind-href]").forEach(el => {
+        const v = get(el.dataset.bindHref);
+        if (v) el.href = v;
+      });
+
+      const name = cfg.broker.tradingName;
+      // stored as prose ("the Northern Rivers and Gold Coast"); the article reads
+      // wrong in a title, so drop it there and leave the rest as written
+      const region = (cfg.broker.region || "").replace(/^the\s+/i, "");
+
+      const title = cfg.content.metaTitle || (region ? `${name} — ${region}` : name);
+      if (title) document.title = title;
+      const desc = cfg.content.metaDescription || cfg.content.heroIntro;
+      if (desc) document.getElementById("meta-description").content = desc;
+
+      document.querySelectorAll("[data-wordmark]").forEach(el => {
+        if (cfg.brand.logoUrl) {
+          const img = document.createElement("img");
+          img.src = cfg.brand.logoUrl; img.alt = name;
+          el.replaceChildren(img);
+        } else el.textContent = name;
+      });
+
+      const phone = cfg.broker.phone;
+      document.querySelectorAll("[data-tel]").forEach(el => {
+        if (!phone) return hide(el, ".contact__line");
+        el.href = "tel:" + phone.replace(/\s/g, "");
+      });
+
+      const { emailUser, emailDomain } = cfg.broker;
+      document.querySelectorAll("[data-email]").forEach(el => {
+        if (!emailUser || !emailDomain) return hide(el, ".contact__line");
+        const addr = `${emailUser}@${emailDomain}`;
+        el.href = "mailto:" + addr;
+        el.textContent = addr;
+      });
+
+      document.querySelectorAll(".contact__line").forEach(el => {
+        const value = el.querySelector("a, strong");
+        if (!value || !value.textContent.trim()) el.remove();
+      });
+      [".about__quote", ".hero__note", ".about__by"].forEach(sel => {
+        document.querySelectorAll(sel).forEach(el => {
+          if (!el.textContent.trim()) el.remove();
+        });
+      });
+
+      const photo = cfg.broker.principalPhoto;
+      document.querySelectorAll(".portrait").forEach(el => {
+        if (!photo) { el.remove(); document.querySelector(".about")?.style.setProperty("grid-template-columns","1fr"); return; }
+        const img = document.createElement("img");
+        img.src = photo;
+        img.alt = [cfg.broker.principalName, cfg.broker.principalRole].filter(Boolean).join(", ") || "Broker portrait";
+        el.classList.add("portrait--photo");
+        el.replaceChildren(img);
+      });
+
+      // built as nodes, not markup — these strings come from the API
+      const steps = (Array.isArray(cfg.process) && cfg.process.length) ? cfg.process : DEFAULT_PROCESS;
+      document.getElementById("steps").replaceChildren(...steps.map(s => {
+        const step = document.createElement("div");
+        step.className = "step";
+        const inner = document.createElement("div");
+        const h3 = document.createElement("h3");
+        h3.textContent = s.title ?? "";
+        const p = document.createElement("p");
+        p.textContent = s.body ?? "";
+        inner.append(h3, p);
+        step.append(inner);
+        return step;
+      }));
+
+      document.getElementById("listings-embed").src =
+        `${CIMPRO_APP}/public/${cfg.cimProId}/embed/listings`;
+
+      document.getElementById("footer-fine").textContent = [
+        cfg.broker.legalName || name,
+        cfg.broker.abn && `ABN ${cfg.broker.abn}`,
+        cfg.broker.established && `Established ${cfg.broker.established}`,
+        "Member firm of Business Brokers Network Australia",
+      ].filter(Boolean).join(". ") + ".";
+
+      const tog = document.getElementById("navtoggle"), nav = document.getElementById("nav");
+      tog.addEventListener("click", () => {
+        const open = nav.dataset.open === "true";
+        nav.dataset.open = String(!open);
+        tog.setAttribute("aria-expanded", String(!open));
+      });
+      nav.addEventListener("click", e => {
+        if (e.target.tagName === "A") { nav.dataset.open = "false"; tog.setAttribute("aria-expanded","false"); }
+      });
+    })();
+    </script>
+
+  </body>
 </html>
