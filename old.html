@@ -1,0 +1,1271 @@
+<!doctype html>
+<html lang="en-AU">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Both are replaced from the site config once it loads; these are the
+        pre-fetch fallbacks, so they stay generic. -->
+    <title>Business Brokers</title>
+
+    <meta
+      id="meta-description"
+      name="description"
+      content="Confidential business appraisals and end-to-end sale management."
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Runs before first paint, and only where scripting is available, so the
+        page is held back while the config loads instead of flashing an empty
+        skeleton. Every exit path below sets this to "ready" or "offline". -->
+    <script>
+      document.documentElement.dataset.state = "loading";
+    </script>
+
+    <style>
+      /* ---------- tokens ---------- */
+      :root {
+        --ink: #10201a;
+        --pine: #1b4034;
+        --pine-deep: #122c24;
+        /* warm paper rather than screen white — the whole palette sits on it */
+        --paper: #fdfcf9;
+        --mist: #f3f1ea;
+        --line: #e0dcd2;
+        --muted: #59665f;
+        --brass: #9a7b3f;
+
+        --serif: "Newsreader", Georgia, serif;
+        --sans:
+          "Archivo", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+        --gap: clamp(4.5rem, 9vw, 7.5rem);
+        --pad: clamp(1.25rem, 4vw, 2rem);
+        --wrap: 1140px;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html {
+        -webkit-text-size-adjust: 100%;
+        scroll-behavior: smooth;
+        /* anchors clear the sticky masthead */
+        scroll-padding-top: 90px;
+      }
+
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: var(--sans);
+        font-size: 1.0625rem;
+        line-height: 1.7;
+        font-weight: 400;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      ::selection {
+        background: var(--pine);
+        color: #fff;
+      }
+
+      .wrap {
+        width: 100%;
+        max-width: var(--wrap);
+        margin-inline: auto;
+        padding-inline: var(--pad);
+      }
+
+      h1,
+      h2,
+      h3 {
+        font-family: var(--serif);
+        font-weight: 400;
+        line-height: 1.1;
+        letter-spacing: -0.018em;
+        margin: 0;
+        text-wrap: balance;
+      }
+
+      p {
+        margin: 0 0 1.15em;
+        max-width: 68ch;
+      }
+
+      p:last-child {
+        margin-bottom: 0;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      :focus-visible {
+        outline: 2px solid var(--brass);
+        outline-offset: 3px;
+      }
+
+      /* ---------- header ---------- */
+      .masthead {
+        position: sticky;
+        top: 0;
+        z-index: 40;
+        background: rgba(253, 252, 249, 0.93);
+        backdrop-filter: saturate(150%) blur(8px);
+        /* newspaper double rule */
+        border-bottom: 3px double var(--line);
+      }
+
+      .masthead__inner {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+        min-height: 80px;
+      }
+
+      .wordmark {
+        font-family: var(--serif);
+        font-size: 1.35rem;
+        letter-spacing: -0.015em;
+        text-decoration: none;
+        white-space: nowrap;
+        margin-right: auto;
+      }
+
+      .wordmark img {
+        height: 34px;
+        width: auto;
+        display: block;
+      }
+
+      .nav {
+        display: flex;
+        gap: 2rem;
+      }
+
+      .nav a {
+        font-size: 0.75rem;
+        font-weight: 500;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        text-decoration: none;
+        color: var(--muted);
+        padding-block: 0.3rem;
+        border-bottom: 1px solid transparent;
+        transition: color 0.18s ease;
+      }
+
+      .nav a:hover {
+        color: var(--ink);
+        border-bottom-color: var(--brass);
+      }
+
+      .masthead__phone {
+        font-family: var(--serif);
+        font-size: 1.0625rem;
+        text-decoration: none;
+        white-space: nowrap;
+        border-bottom: 1px solid var(--brass);
+        padding-bottom: 2px;
+      }
+
+      .navtoggle {
+        display: none;
+        background: none;
+        border: 1px solid var(--line);
+        border-radius: 0;
+        padding: 0.5rem 0.75rem;
+        font: inherit;
+        font-size: 0.6875rem;
+        font-weight: 500;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        cursor: pointer;
+      }
+
+      /* ---------- hero ---------- */
+      .hero {
+        /* Shading only — white and black alphas over the theme colour, so the
+           gradient is always that colour in lighter and deeper tones and never
+           introduces a second hue, whatever brand.primary turns out to be. */
+        background-color: var(--pine);
+        background-image:
+          /* a low, off-centre light behind the headline */
+          radial-gradient(
+            120% 90% at 8% -10%,
+            rgba(255, 255, 255, 0.1),
+            rgba(255, 255, 255, 0) 58%
+          ),
+          /* and the block deepening away from it */
+          linear-gradient(
+            158deg,
+            rgba(255, 255, 255, 0.05) 0%,
+            rgba(0, 0, 0, 0) 45%,
+            rgba(0, 0, 0, 0.22) 100%
+          );
+        color: rgba(255, 255, 255, 0.92);
+        padding-block: clamp(5rem, 11vw, 8.5rem);
+        border-bottom: 2px solid var(--brass);
+      }
+
+      .hero h1 {
+        font-size: clamp(2.6rem, 6.2vw, 4.6rem);
+        line-height: 1.06;
+        max-width: 17ch;
+        color: #fff;
+      }
+
+      .hero__intro {
+        font-family: var(--serif);
+        font-size: clamp(1.1875rem, 1.9vw, 1.4rem);
+        line-height: 1.55;
+        color: rgba(255, 255, 255, 0.78);
+        max-width: 52ch;
+        margin-top: 1.6rem;
+      }
+
+      .hero__actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.9rem;
+        margin-top: 2.5rem;
+      }
+
+      .hero__note {
+        margin-top: 3.5rem;
+        padding-top: 1.75rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.16);
+        font-size: 0.9375rem;
+        color: rgba(255, 255, 255, 0.62);
+        max-width: 60ch;
+      }
+
+      .btn {
+        display: inline-block;
+        font: inherit;
+        font-size: 0.8125rem;
+        font-weight: 500;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        padding: 1.05rem 2rem;
+        border-radius: 0;
+        text-decoration: none;
+        border: 1px solid transparent;
+        cursor: pointer;
+        transition:
+          background-color 0.18s ease,
+          color 0.18s ease,
+          border-color 0.18s ease;
+      }
+
+      .btn--solid {
+        background: #fff;
+        color: var(--pine-deep);
+      }
+
+      .btn--solid:hover {
+        background: var(--brass);
+        color: #fff;
+      }
+
+      .btn--ghost {
+        border-color: rgba(255, 255, 255, 0.4);
+        color: #fff;
+      }
+
+      .btn--ghost:hover {
+        border-color: var(--brass);
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      /* ---------- generic section ---------- */
+      .band {
+        padding-block: var(--gap);
+      }
+
+      .band--mist {
+        background: var(--mist);
+      }
+
+      /* same shading system as the hero, pitched a little deeper so the two
+         theme-coloured blocks read as a pair rather than a repeat */
+      .band--pine {
+        background-color: var(--pine-deep);
+        background-image:
+          radial-gradient(
+            110% 85% at 6% -5%,
+            rgba(255, 255, 255, 0.12),
+            rgba(255, 255, 255, 0) 55%
+          ),
+          linear-gradient(
+            158deg,
+            rgba(255, 255, 255, 0.06) 0%,
+            rgba(0, 0, 0, 0) 42%,
+            rgba(0, 0, 0, 0.3) 100%
+          );
+        color: rgba(255, 255, 255, 0.92);
+      }
+
+      .band h2 {
+        font-size: clamp(1.85rem, 3.2vw, 2.55rem);
+        max-width: 22ch;
+      }
+
+      /* short brass keyline above every section heading */
+      .band h2::before {
+        content: "";
+        display: block;
+        width: 2.5rem;
+        height: 2px;
+        margin-bottom: 1.5rem;
+        background: var(--brass);
+      }
+
+      /* heading left, lede right — so a section header spans the page
+         instead of stacking in the left half */
+      .band__head {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: clamp(2rem, 6vw, 5rem);
+        align-items: start;
+      }
+
+      .band__head h2 {
+        /* the grid column is the constraint here, not a character count */
+        max-width: none;
+      }
+
+      .band__lede {
+        font-family: var(--serif);
+        font-size: 1.1875rem;
+        line-height: 1.55;
+        margin-top: 1.1rem;
+        color: var(--muted);
+        max-width: 54ch;
+      }
+
+      .band__head .band__lede {
+        /* clears the heading's keyline so both columns start on the same line */
+        margin-top: 1.6rem;
+      }
+
+      .band--pine .band__lede {
+        color: rgba(255, 255, 255, 0.72);
+      }
+
+      /* ---------- two paths ---------- */
+      .paths {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: clamp(2rem, 5vw, 4.5rem);
+      }
+
+      .path h3 {
+        font-size: 1.7rem;
+      }
+
+      .path p {
+        margin-top: 0.9rem;
+        color: var(--muted);
+      }
+
+      .path__link {
+        display: inline-block;
+        margin-top: 1.5rem;
+        font-size: 0.75rem;
+        font-weight: 500;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        text-decoration: none;
+        border-bottom: 1px solid var(--brass);
+        padding-bottom: 3px;
+      }
+
+      .path__link::after {
+        content: " \2192";
+        color: var(--brass);
+      }
+
+      .path__link:hover {
+        color: var(--brass);
+      }
+
+      .path--lead {
+        border-top: 3px solid var(--pine);
+        padding-top: 1.75rem;
+      }
+
+      .path--alt {
+        border-top: 1px solid var(--line);
+        padding-top: 1.75rem;
+      }
+
+      /* ---------- about ---------- */
+      .about {
+        display: grid;
+        grid-template-columns: minmax(0, 340px) minmax(0, 1fr);
+        gap: clamp(2rem, 5vw, 4.5rem);
+        align-items: start;
+      }
+
+      .about__by {
+        margin: 0.9rem 0 0;
+        font-size: 0.75rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+
+      .about__by strong {
+        color: var(--ink);
+        font-weight: 600;
+      }
+
+      .portrait {
+        aspect-ratio: 4/5;
+        background: linear-gradient(
+          150deg,
+          #d8ded9 0%,
+          #c3ccc5 55%,
+          #aeb9b1 100%
+        );
+        border-radius: 0;
+        display: grid;
+        place-items: center;
+        color: #6a7871;
+        font-size: 0.8125rem;
+        text-align: center;
+        padding: 1rem;
+        /* an offset hairline frame, drawn in the band colour so only the rule shows */
+        box-shadow:
+          14px 14px 0 -1px var(--mist),
+          14px 14px 0 0 var(--line);
+      }
+
+      .portrait--photo {
+        padding: 0;
+        background: none;
+      }
+
+      .portrait--photo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 0;
+        display: block;
+      }
+
+      .about__body {
+        margin-top: 1.5rem;
+        color: var(--muted);
+      }
+
+      .about__quote {
+        position: relative;
+        margin: 2.5rem 0 0;
+        padding-left: 2.75rem;
+        font-family: var(--serif);
+        font-style: italic;
+        font-size: 1.4rem;
+        line-height: 1.5;
+        color: var(--ink);
+        max-width: 46ch;
+      }
+
+      /* hanging quote mark instead of a rule */
+      .about__quote::before {
+        content: "\201C";
+        position: absolute;
+        left: 0;
+        top: -0.35em;
+        font-size: 3.5rem;
+        line-height: 1;
+        font-style: normal;
+        color: var(--brass);
+      }
+
+      .about__quote p {
+        margin: 0;
+        max-width: none;
+      }
+
+      /* ---------- process (a real sequence, so numbers earn their place) ---------- */
+      .steps {
+        margin-top: 3rem;
+        display: grid;
+        gap: 0;
+        counter-reset: step;
+      }
+
+      /* number | title | body, so each step reads across the full measure */
+      .step {
+        display: grid;
+        grid-template-columns: 4.5rem minmax(0, 15rem) minmax(0, 1fr);
+        column-gap: clamp(1.5rem, 3vw, 3rem);
+        padding-block: 1.75rem;
+        border-top: 1px solid var(--line);
+        align-items: baseline;
+      }
+
+      .step:first-child {
+        border-top-color: var(--ink);
+      }
+
+      .step:last-child {
+        border-bottom: 1px solid var(--line);
+      }
+
+      .step::before {
+        counter-increment: step;
+        content: counter(step, decimal-leading-zero);
+        font-family: var(--serif);
+        font-size: 1.75rem;
+        line-height: 1;
+        color: var(--brass);
+      }
+
+      .step h3 {
+        font-size: 1.3rem;
+        letter-spacing: -0.01em;
+      }
+
+      .step p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.9875rem;
+        max-width: 64ch;
+      }
+
+      /* ---------- listings ---------- */
+      .listings__frame {
+        margin-top: 2.75rem;
+        overflow: hidden;
+      }
+
+      .listings__frame iframe {
+        display: block;
+        width: 100%;
+        border: none;
+      }
+
+      /* ---------- contact ---------- */
+      .contact {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: clamp(2rem, 6vw, 5rem);
+        align-items: start;
+      }
+
+      .contact__lines {
+        /* first hairline sits level with the heading's keyline */
+        margin-top: 0;
+        display: grid;
+        gap: 0;
+      }
+
+      .contact__line {
+        padding-block: 1.25rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.14);
+      }
+
+      .contact__line:last-child {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+      }
+
+      .contact__line span {
+        display: block;
+        font-size: 0.6875rem;
+        font-weight: 500;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.62);
+        margin-bottom: 0.4rem;
+      }
+
+      .contact__line a,
+      .contact__line strong {
+        font-family: var(--serif);
+        font-size: 1.5rem;
+        font-weight: 400;
+        color: #fff;
+        text-decoration: none;
+        line-height: 1.3;
+      }
+
+      .contact__line a {
+        border-bottom: 1px solid transparent;
+        transition: border-color 0.18s ease;
+      }
+
+      .contact__line a:hover {
+        border-bottom-color: var(--brass);
+      }
+
+      /* ---------- footer ---------- */
+      .footer {
+        padding-block: 3.25rem;
+        border-top: 3px double var(--line);
+        font-size: 0.8125rem;
+        color: var(--muted);
+      }
+
+      .footer__top {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.5rem 2rem;
+        align-items: center;
+        padding-bottom: 2rem;
+        margin-bottom: 2rem;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .footer__nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.75rem;
+        margin-left: auto;
+      }
+
+      .footer__nav a {
+        font-size: 0.6875rem;
+        font-weight: 500;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .footer a {
+        text-decoration: none;
+        color: var(--muted);
+      }
+
+      .footer a:hover {
+        color: var(--ink);
+      }
+
+      .footer__fine {
+        min-width: fit-content;
+        text-align: center;
+        margin: 0 auto;
+        letter-spacing: 0.01em;
+      }
+
+      /* ---------- load states ----------
+         The inline script in <head> sets data-state="loading" before first
+         paint, so the page is held back until the config resolves rather than
+         flashing an empty skeleton. It only runs when scripting does: with no
+         JS the attribute is never set and the static page renders as before. */
+      html[data-state="loading"] body {
+        visibility: hidden;
+      }
+
+      html[data-state="offline"] .masthead,
+      html[data-state="offline"] main,
+      html[data-state="offline"] .footer {
+        display: none;
+      }
+
+      .offline {
+        display: none;
+        min-height: 100vh;
+        min-height: 100svh;
+        place-content: center;
+        padding: clamp(2rem, 8vw, 4rem) var(--pad);
+        text-align: center;
+      }
+
+      html[data-state="offline"] .offline {
+        display: grid;
+      }
+
+      .offline__inner {
+        max-width: 34rem;
+        margin-inline: auto;
+      }
+
+      .offline__rule {
+        width: 2.5rem;
+        height: 2px;
+        margin: 0 auto 2.25rem;
+        background: var(--brass);
+      }
+
+      .offline h1 {
+        font-size: clamp(1.75rem, 4vw, 2.4rem);
+      }
+
+      .offline p {
+        max-width: none;
+        margin: 1.25rem 0 0;
+        font-family: var(--serif);
+        font-size: 1.125rem;
+        line-height: 1.55;
+        color: var(--muted);
+      }
+
+      .offline__fine {
+        margin-top: 2.75rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid var(--line);
+        font-family: var(--sans);
+        font-size: 0.75rem;
+        font-weight: 500;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      /* ---------- motion: one moment, on load ---------- */
+      @media (prefers-reduced-motion: no-preference) {
+        /* held until the page is revealed, so the entrance isn't spent
+           behind the loading state */
+        html[data-state="ready"] .hero h1,
+        html[data-state="ready"] .hero__intro,
+        html[data-state="ready"] .hero__actions,
+        html[data-state="ready"] .hero__note {
+          opacity: 0;
+          animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
+        }
+
+        .hero__intro {
+          animation-delay: 0.09s;
+        }
+
+        .hero__actions {
+          animation-delay: 0.18s;
+        }
+
+        .hero__note {
+          animation-delay: 0.27s;
+        }
+
+        html[data-state="offline"] .offline__inner {
+          opacity: 0;
+          animation: rise 0.5s cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
+        }
+      }
+
+      @keyframes rise {
+        from {
+          opacity: 0;
+          transform: translateY(14px);
+        }
+
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+
+      /* ---------- responsive ---------- */
+      @media (max-width: 860px) {
+        .paths,
+        .about,
+        .contact,
+        .band__head {
+          grid-template-columns: 1fr;
+        }
+
+        .band__head h2 {
+          max-width: 22ch;
+        }
+
+        .band__head .band__lede {
+          margin-top: 1.1rem;
+        }
+
+        .step {
+          grid-template-columns: 3.5rem minmax(0, 1fr);
+        }
+
+        .step h3,
+        .step p {
+          grid-column: 2;
+        }
+
+        .step p {
+          margin-top: 0.45rem;
+        }
+
+        .contact__lines {
+          margin-top: 2.5rem;
+        }
+
+        .portrait {
+          max-width: 280px;
+        }
+
+        .nav {
+          display: none;
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: 100%;
+          flex-direction: column;
+          gap: 0;
+          background: var(--paper);
+          border-bottom: 1px solid var(--line);
+          padding: 0.5rem var(--pad) 1.25rem;
+        }
+
+        .nav[data-open="true"] {
+          display: flex;
+        }
+
+        .nav a {
+          padding-block: 0.7rem;
+          border-bottom: 1px solid var(--line);
+        }
+
+        .navtoggle {
+          display: block;
+          order: 3;
+        }
+
+        .masthead__phone {
+          order: 2;
+        }
+
+        .masthead__inner {
+          position: relative;
+          gap: 1rem;
+        }
+      }
+
+      @media (max-width: 520px) {
+        .step {
+          grid-template-columns: 2.75rem minmax(0, 1fr);
+          gap: 1rem;
+        }
+
+        .about__quote {
+          padding-left: 2.25rem;
+          font-size: 1.25rem;
+        }
+
+        .btn {
+          width: 100%;
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!--
+      Shown in place of the site when the config can't be loaded — whether it
+      has never been published or the service is momentarily unreachable. It is
+      read by the public, so it names no product and gives no instructions the
+      visitor can act on.
+    -->
+    <section class="offline" id="offline">
+      <div class="offline__inner">
+        <div class="offline__rule" aria-hidden="true"></div>
+        <h1>This site isn’t available right now.</h1>
+        <p>
+          It may not be online yet, or it may be temporarily unavailable. Please
+          try again shortly.
+        </p>
+        <p class="offline__fine">Thank you for your patience</p>
+      </div>
+    </section>
+
+    <header class="masthead">
+      <div class="wrap masthead__inner">
+        <a class="wordmark" href="/" data-wordmark></a>
+        <nav class="nav" id="nav" aria-label="Main">
+          <a href="#selling">Sell your business</a>
+          <a href="#listings">Businesses for sale</a>
+          <a href="#about">About</a>
+          <a href="#contact">Contact</a>
+        </nav>
+        <a
+          class="masthead__phone"
+          data-bind="broker.phone"
+          data-tel
+          href="#"
+        ></a>
+        <button
+          class="navtoggle"
+          id="navtoggle"
+          aria-expanded="false"
+          aria-controls="nav"
+        >
+          Menu
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="wrap">
+          <h1 data-bind="content.heroHeadline"></h1>
+          <p class="hero__intro" data-bind="content.heroIntro"></p>
+          <div class="hero__actions">
+            <a class="btn btn--solid" href="#contact"
+              >Request a confidential appraisal</a
+            >
+            <a class="btn btn--ghost" href="#listings"
+              >See businesses for sale</a
+            >
+          </div>
+          <p class="hero__note" data-bind="content.credibility"></p>
+        </div>
+      </section>
+
+      <section class="band" id="selling">
+        <div class="wrap">
+          <div class="paths">
+            <div class="path path--lead">
+              <h3 data-bind="content.sellHeading"></h3>
+              <p data-bind="content.sellBody"></p>
+              <a class="path__link" href="#contact">Start with an appraisal</a>
+            </div>
+            <div class="path path--alt">
+              <h3 data-bind="content.buyHeading"></h3>
+              <p data-bind="content.buyBody"></p>
+              <a class="path__link" href="#listings">Browse current listings</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="band band--mist" id="about">
+        <div class="wrap about">
+          <!-- filled with the principal's photo, or removed, once config loads -->
+          <div class="portrait"></div>
+          <div>
+            <h2 data-bind="content.aboutHeading"></h2>
+            <p class="about__by">
+              <strong data-bind="broker.principalName"></strong>
+              •
+              <span data-bind="broker.principalRole"></span>
+            </p>
+            <p class="about__body" data-bind="content.aboutBody"></p>
+            <blockquote class="about__quote">
+              <p data-bind="content.aboutQuote"></p>
+            </blockquote>
+          </div>
+        </div>
+      </section>
+
+      <section class="band">
+        <div class="wrap">
+          <div class="band__head">
+            <h2>How a sale actually runs</h2>
+            <p class="band__lede">
+              Most owners have never been through this. Here is the whole
+              process, start to finish.
+            </p>
+          </div>
+          <div class="steps" id="steps"></div>
+        </div>
+      </section>
+
+      <section class="band band--mist" id="listings">
+        <div class="wrap">
+          <div class="band__head">
+            <h2 data-bind="content.listingsHeading"></h2>
+            <p class="band__lede" data-bind="content.listingsIntro"></p>
+          </div>
+          <div class="listings__frame">
+            <!--
+              Live CIM-PRO listings widget, scoped by cimProId.
+              Height is fixed at 900px for now — the upgrade is to have the
+              widget postMessage its content height so this resizes itself.
+            -->
+            <iframe
+              id="listings-embed"
+              height="900"
+              loading="lazy"
+              frameborder="0"
+              allowtransparency="true"
+              title="Businesses for sale"
+            ></iframe>
+          </div>
+        </div>
+      </section>
+
+      <section class="band band--pine" id="contact">
+        <div class="wrap contact">
+          <div>
+            <h2>Have a quiet conversation first.</h2>
+            <p class="band__lede">
+              Nothing is listed, recorded or actioned from an initial call. Most
+              owners talk to us twelve to eighteen months before they sell.
+            </p>
+          </div>
+          <div class="contact__lines">
+            <div class="contact__line">
+              <span>Phone</span>
+              <a data-bind="broker.phone" data-tel href="#"></a>
+            </div>
+            <div class="contact__line">
+              <span>Email</span>
+              <a data-email href="#"></a>
+            </div>
+            <div class="contact__line">
+              <span>Office</span>
+              <strong
+                ><span data-bind="broker.officeStreet"></span><br /><span
+                  data-bind="broker.officeSuburb"
+                ></span
+              ></strong>
+            </div>
+            <div class="contact__line">
+              <span>Hours</span>
+              <strong data-bind="broker.officeHours"></strong>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="wrap">
+        <div class="footer__top">
+          <span
+            class="wordmark"
+            data-wordmark
+            style="font-size: 1.15rem"
+          ></span>
+          <nav class="footer__nav" aria-label="Footer">
+            <a href="#selling">Sell your business</a>
+            <a href="#listings">Businesses for sale</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+            <a data-bind-href="legal.privacyUrl" href="/privacy">Privacy</a>
+            <a data-bind-href="legal.termsUrl" href="/terms">Terms</a>
+          </nav>
+        </div>
+        <p class="footer__fine" id="footer-fine"></p>
+      </div>
+    </footer>
+
+    <script>
+      "use strict";
+
+      // The visitor-facing notice is deliberately the same whether the site was
+      // never published or something failed on the way; the real reason goes to
+      // the console for whoever set the site up. Reaching this is also what
+      // releases the page from its held "loading" state.
+      function showOffline(reason) {
+        console.warn("[site] not rendered:", reason);
+        document.title = "Site unavailable";
+        document.documentElement.dataset.state = "offline";
+      }
+
+      (async function () {
+        const params = new URLSearchParams(location.search);
+        const LOCAL = ["localhost", "127.0.0.1"].includes(location.hostname);
+        // The config API and the listings embed are the same app.
+        const CIMPRO_APP = LOCAL
+          ? "http://localhost:3000"
+          : "http://localhost:3000";
+
+        // Used when a site config carries no process of its own.
+        const DEFAULT_PROCESS = [
+          {
+            title: "Appraisal",
+            body: "A confidential assessment of what the business is worth today, and what would move that number.",
+          },
+          {
+            title: "Information memorandum",
+            body: "The document that does the selling. Financials normalised, operations documented, risks addressed before a buyer raises them.",
+          },
+          {
+            title: "Confidential marketing",
+            body: "Listed without identifying the business. Every enquiry signs a confidentiality agreement before receiving anything.",
+          },
+          {
+            title: "Qualified buyers",
+            body: "Buyers are screened for finance and intent before they get near your staff, your books or your premises.",
+          },
+          {
+            title: "Due diligence and settlement",
+            body: "We manage the process through to settlement alongside your accountant and solicitor.",
+          },
+        ];
+
+        async function loadConfig() {
+          // the page is held blank until this resolves, so a hung request has
+          // to fail rather than wait forever
+          const req = (url) =>
+            fetch(
+              url,
+              AbortSignal.timeout ? { signal: AbortSignal.timeout(8000) } : {},
+            );
+
+          const host = (LOCAL && params.get("site")) || location.hostname;
+          const byHost = await req(
+            `${CIMPRO_APP}/api/public/broker-website?domain=${encodeURIComponent(host)}`,
+          );
+          if (byHost.ok) return byHost.json();
+
+          const uuid = params.get("uuid");
+          if (byHost.status === 404 && uuid) {
+            const byId = await req(
+              `${CIMPRO_APP}/api/public/broker-website?uuid=${encodeURIComponent(uuid)}`,
+            );
+            if (byId.ok) return byId.json();
+          }
+          throw new Error(`site config unavailable (${byHost.status})`);
+        }
+
+        // anything thrown from here on is caught below and shows the notice
+        const cfg = await loadConfig();
+
+        const get = (path) =>
+          path.split(".").reduce((o, k) => (o || {})[k], cfg);
+        const hide = (el, sel) => (el.closest(sel) || el).remove();
+
+        const root = document.documentElement.style;
+        if (cfg.brand.primary) {
+          root.setProperty("--pine", cfg.brand.primary);
+          root.setProperty("--pine-deep", cfg.brand.primary);
+        }
+        if (cfg.brand.accent) root.setProperty("--brass", cfg.brand.accent);
+
+        document.querySelectorAll("[data-bind]").forEach((el) => {
+          el.textContent = get(el.dataset.bind) ?? ""; // textContent, not innerHTML
+        });
+        document.querySelectorAll("[data-bind-href]").forEach((el) => {
+          const v = get(el.dataset.bindHref);
+          if (v) el.href = v;
+        });
+
+        const name = cfg.broker.tradingName;
+        // stored as prose ("the Northern Rivers and Gold Coast"); the article
+        // reads wrong in a title, so drop it there. The footer keeps the value
+        // as written, where it sits inside a sentence.
+        const region = (cfg.broker.region || "").replace(/^the\s+/i, "");
+
+        const title =
+          cfg.content.metaTitle || (region ? `${name} — ${region}` : name);
+        if (title) document.title = title;
+        const desc = cfg.content.metaDescription || cfg.content.heroIntro;
+        if (desc) document.getElementById("meta-description").content = desc;
+
+        // no placeholder <link> in the head: without one the browser still
+        // falls back to /favicon.ico for sites that carry no configured icon
+        if (cfg.brand.faviconUrl) {
+          const icon = document.createElement("link");
+          icon.rel = "icon";
+          icon.href = cfg.brand.faviconUrl;
+          document.head.append(icon);
+        }
+
+        document.querySelectorAll("[data-wordmark]").forEach((el) => {
+          if (cfg.brand.logoUrl) {
+            const img = document.createElement("img");
+            img.src = cfg.brand.logoUrl;
+            img.alt = name;
+            el.replaceChildren(img);
+          } else el.textContent = name;
+        });
+
+        const phone = cfg.broker.phone;
+        document.querySelectorAll("[data-tel]").forEach((el) => {
+          if (!phone) return hide(el, ".contact__line");
+          el.href = "tel:" + phone.replace(/\s/g, "");
+        });
+
+        const { emailUser, emailDomain } = cfg.broker;
+        document.querySelectorAll("[data-email]").forEach((el) => {
+          if (!emailUser || !emailDomain) return hide(el, ".contact__line");
+          const addr = `${emailUser}@${emailDomain}`;
+          el.href = "mailto:" + addr;
+          el.textContent = addr;
+        });
+
+        document.querySelectorAll(".contact__line").forEach((el) => {
+          const value = el.querySelector("a, strong");
+          if (!value || !value.textContent.trim()) el.remove();
+        });
+        [".about__quote", ".hero__note", ".about__by"].forEach((sel) => {
+          document.querySelectorAll(sel).forEach((el) => {
+            if (!el.textContent.trim()) el.remove();
+          });
+        });
+
+        const photo = cfg.broker.principalPhoto;
+        document.querySelectorAll(".portrait").forEach((el) => {
+          if (!photo) {
+            el.remove();
+            document
+              .querySelector(".about")
+              ?.style.setProperty("grid-template-columns", "1fr");
+            return;
+          }
+          const img = document.createElement("img");
+          img.src = photo;
+          img.alt =
+            [cfg.broker.principalName, cfg.broker.principalRole]
+              .filter(Boolean)
+              .join(", ") || "Broker portrait";
+          el.classList.add("portrait--photo");
+          el.replaceChildren(img);
+        });
+
+        // built as nodes, not markup — these strings come from the API
+        const steps =
+          Array.isArray(cfg.process) && cfg.process.length
+            ? cfg.process
+            : DEFAULT_PROCESS;
+        document.getElementById("steps").replaceChildren(
+          ...steps.map((s) => {
+            const step = document.createElement("div");
+            step.className = "step";
+            const h3 = document.createElement("h3");
+            h3.textContent = s.title ?? "";
+            const p = document.createElement("p");
+            p.textContent = s.body ?? "";
+            // title and body are direct children: each gets its own grid column
+            step.append(h3, p);
+            return step;
+          }),
+        );
+
+        document.getElementById("listings-embed").src =
+          `${CIMPRO_APP}/public/${cfg.cimProId}/embed/listings`;
+
+        document.getElementById("footer-fine").textContent =
+          [
+            name || cfg.broker.legalName,
+            // the prose form, article and all: it reads as a sentence here
+            cfg.broker.region && `Serving ${cfg.broker.region}`,
+            cfg.broker.abn && `ABN ${cfg.broker.abn}`,
+            cfg.broker.established && `Established ${cfg.broker.established}`,
+            "Member firm of Business Brokers Network Australia",
+          ]
+            .filter(Boolean)
+            .join(". ") + ".";
+
+        const tog = document.getElementById("navtoggle"),
+          nav = document.getElementById("nav");
+        tog.addEventListener("click", () => {
+          const open = nav.dataset.open === "true";
+          nav.dataset.open = String(!open);
+          tog.setAttribute("aria-expanded", String(!open));
+        });
+        nav.addEventListener("click", (e) => {
+          if (e.target.tagName === "A") {
+            nav.dataset.open = "false";
+            tog.setAttribute("aria-expanded", "false");
+          }
+        });
+
+        // everything is bound: release the page
+        document.getElementById("offline").remove();
+        document.documentElement.dataset.state = "ready";
+      })().catch(showOffline);
+    </script>
+  </body>
+</html>
