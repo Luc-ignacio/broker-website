@@ -194,14 +194,24 @@
 
       /* ---------- hero ---------- */
       .hero {
-        position: relative;
-        background: var(--pine);
-        /* a low, off-centre light, so the block has depth without a photo */
-        background-image: radial-gradient(
-          115% 85% at 12% 0%,
-          rgba(255, 255, 255, 0.07),
-          rgba(255, 255, 255, 0) 62%
-        );
+        /* Shading only — white and black alphas over the theme colour, so the
+           gradient is always that colour in lighter and deeper tones and never
+           introduces a second hue, whatever brand.primary turns out to be. */
+        background-color: var(--pine);
+        background-image:
+          /* a low, off-centre light behind the headline */
+          radial-gradient(
+            120% 90% at 8% -10%,
+            rgba(255, 255, 255, 0.1),
+            rgba(255, 255, 255, 0) 58%
+          ),
+          /* and the block deepening away from it */
+          linear-gradient(
+            158deg,
+            rgba(255, 255, 255, 0.05) 0%,
+            rgba(0, 0, 0, 0) 45%,
+            rgba(0, 0, 0, 0.22) 100%
+          );
         color: rgba(255, 255, 255, 0.92);
         padding-block: clamp(5rem, 11vw, 8.5rem);
         border-bottom: 2px solid var(--brass);
@@ -286,8 +296,22 @@
         background: var(--mist);
       }
 
+      /* same shading system as the hero, pitched a little deeper so the two
+         theme-coloured blocks read as a pair rather than a repeat */
       .band--pine {
-        background: var(--pine-deep);
+        background-color: var(--pine-deep);
+        background-image:
+          radial-gradient(
+            110% 85% at 6% -5%,
+            rgba(255, 255, 255, 0.12),
+            rgba(255, 255, 255, 0) 55%
+          ),
+          linear-gradient(
+            158deg,
+            rgba(255, 255, 255, 0.06) 0%,
+            rgba(0, 0, 0, 0) 42%,
+            rgba(0, 0, 0, 0.3) 100%
+          );
         color: rgba(255, 255, 255, 0.92);
       }
 
@@ -1118,8 +1142,9 @@
         });
 
         const name = cfg.broker.tradingName;
-        // stored as prose ("the Northern Rivers and Gold Coast"); the article reads
-        // wrong in a title, so drop it there and leave the rest as written
+        // stored as prose ("the Northern Rivers and Gold Coast"); the article
+        // reads wrong in a title, so drop it there. The footer keeps the value
+        // as written, where it sits inside a sentence.
         const region = (cfg.broker.region || "").replace(/^the\s+/i, "");
 
         const title =
@@ -1127,6 +1152,15 @@
         if (title) document.title = title;
         const desc = cfg.content.metaDescription || cfg.content.heroIntro;
         if (desc) document.getElementById("meta-description").content = desc;
+
+        // no placeholder <link> in the head: without one the browser still
+        // falls back to /favicon.ico for sites that carry no configured icon
+        if (cfg.brand.faviconUrl) {
+          const icon = document.createElement("link");
+          icon.rel = "icon";
+          icon.href = cfg.brand.faviconUrl;
+          document.head.append(icon);
+        }
 
         document.querySelectorAll("[data-wordmark]").forEach((el) => {
           if (cfg.brand.logoUrl) {
@@ -1205,6 +1239,8 @@
         document.getElementById("footer-fine").textContent =
           [
             name || cfg.broker.legalName,
+            // the prose form, article and all: it reads as a sentence here
+            cfg.broker.region && `Serving ${cfg.broker.region}`,
             cfg.broker.abn && `ABN ${cfg.broker.abn}`,
             cfg.broker.established && `Established ${cfg.broker.established}`,
             "Member firm of Business Brokers Network Australia",
